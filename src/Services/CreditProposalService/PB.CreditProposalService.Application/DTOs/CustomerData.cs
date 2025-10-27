@@ -14,8 +14,6 @@
             BirthDate = birthDate;
             InitialScore = initialScore;
         }
-
-        // Construtor vazio para deserialização
         public CustomerData() { }
     }
 }

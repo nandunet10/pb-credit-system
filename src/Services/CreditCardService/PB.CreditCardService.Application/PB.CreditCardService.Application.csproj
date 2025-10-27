@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\PB.Shared.Core\PB.Shared.Core.csproj" />
     <ProjectReference Include="..\PB.CreditCardService.Domain\PB.CreditCardService.Domain.csproj" />
   </ItemGroup>
 

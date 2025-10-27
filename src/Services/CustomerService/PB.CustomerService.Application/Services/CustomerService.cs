@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PB.CustomerService.Application.DTOs;
 using PB.CustomerService.Domain.Entities;
+using PB.CustomerService.Infrastructure.Repositories;
 using PB.Shared.Core.Results;
 using PB.Shared.Messaging.Events;
 
@@ -143,5 +144,6 @@ namespace PB.CustomerService.Application.Services
                 CreatedAt = customer.CreatedAt
             };
         }
+
     }
 }

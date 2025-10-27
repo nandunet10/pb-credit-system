@@ -112,9 +112,6 @@ namespace PB.CreditCardService.Infrastructure.Consumers
 
         private async Task IssueCardAsync(ProposalApprovedEvent message, int cardNumber)
         {
-            // Simulação de possível falha (remover em produção)
-            // if (new Random().Next(0, 10) < 2) throw new Exception("Simulação de falha na emissão");
-
             var card = new CreditCard(
                 message.ProposalId,
                 message.CustomerId,
