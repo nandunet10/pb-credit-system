@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\Services\\CustomerService\\PB.CustomerService.API\\PB.CustomerService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "IIS Express"
+      },
+      {
+        "Path": "src\\Services\\CreditProposalService\\PB.CreditProposalService.API\\PB.CreditProposalService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "IIS Express"
+      },
+      {
+        "Path": "src\\Services\\CreditCardService\\PB.CreditCardService.API\\PB.CreditCardService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "IIS Express"
+      }
+    ]
+  }
+]

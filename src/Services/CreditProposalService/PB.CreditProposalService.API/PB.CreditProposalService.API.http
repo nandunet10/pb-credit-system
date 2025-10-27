@@ -1,0 +1,6 @@
+@PB.CreditProposalService.API_HostAddress = http://localhost:5258
+
+GET {{PB.CreditProposalService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

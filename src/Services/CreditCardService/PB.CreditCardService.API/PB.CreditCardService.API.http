@@ -1,0 +1,6 @@
+@PB.CreditCardService.API_HostAddress = http://localhost:5122
+
+GET {{PB.CreditCardService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

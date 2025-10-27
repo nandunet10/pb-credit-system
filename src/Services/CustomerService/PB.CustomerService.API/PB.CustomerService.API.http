@@ -1,0 +1,6 @@
+@PB.CustomerService.API_HostAddress = http://localhost:5126
+
+GET {{PB.CustomerService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
