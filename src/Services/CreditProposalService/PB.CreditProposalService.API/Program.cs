@@ -1,10 +1,11 @@
 
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using PB.CreditProposalService.Application.Services;
 using PB.CreditProposalService.Infrastructure;
 using PB.CreditProposalService.Infrastructure.Consumers;
 using PB.CreditProposalService.Infrastructure.Data;
+using PB.CustomerService.Application.Services;
+using PB.Shared.Core.Interfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

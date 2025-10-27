@@ -1,0 +1,93 @@
+flowchart TD
+    Start([Cliente faz requisição]) --> API1[API: POST /api/customers]
+    
+    API1 --> ValidateCustomer{Validar dados<br/>do cliente}
+    ValidateCustomer -->|Inválido| Return400[Retornar 400 Bad Request]
+    ValidateCustomer -->|Válido| SaveCustomer[(Salvar Cliente<br/>no BD)]
+    
+    SaveCustomer --> PublishCustomer[Publicar evento:<br/>CustomerRegistered]
+    PublishCustomer --> ReturnCustomer[Retornar 201 Created<br/>com dados do cliente]
+    
+    PublishCustomer -.->|RabbitMQ| Queue1{{Fila: customer.registered}}
+    
+    Queue1 -.-> ConsumeCustomer[Credit Proposal Service<br/>consome evento]
+    
+    ConsumeCustomer --> CalculateScore[Calcular Score<br/>do Cliente]
+    
+    CalculateScore --> CheckScore{Avaliar Score}
+    
+    CheckScore -->|0-100| RejectProposal[Score insuficiente<br/>Status: REJECTED]
+    CheckScore -->|101-500| ApproveProposal1[Aprovar proposta<br/>1 cartão - R$ 1.000<br/>Status: APPROVED]
+    CheckScore -->|501-1000| ApproveProposal2[Aprovar proposta<br/>2 cartões - R$ 5.000 cada<br/>Status: APPROVED]
+    
+    RejectProposal --> SaveProposal1[(Salvar Proposta<br/>no BD)]
+    ApproveProposal1 --> SaveProposal2[(Salvar Proposta<br/>no BD)]
+    ApproveProposal2 --> SaveProposal3[(Salvar Proposta<br/>no BD)]
+    
+    SaveProposal1 --> PublishRejected[Publicar evento:<br/>ProposalRejected]
+    SaveProposal2 --> PublishApproved1[Publicar evento:<br/>ProposalApproved]
+    SaveProposal3 --> PublishApproved2[Publicar evento:<br/>ProposalApproved]
+    
+    PublishRejected -.->|RabbitMQ| QueueRejected{{Fila: proposal.rejected}}
+    PublishApproved1 -.->|RabbitMQ| QueueApproved{{Fila: proposal.approved}}
+    PublishApproved2 -.->|RabbitMQ| QueueApproved
+    
+    QueueApproved -.-> ConsumeApproved[Credit Card Service<br/>consome evento]
+    
+    ConsumeApproved --> CheckCards{Quantos<br/>cartões?}
+    
+    CheckCards -->|1 cartão| IssueCard1[Emitir cartão<br/>Limite: R$ 1.000]
+    CheckCards -->|2 cartões| IssueCard2A[Emitir 1º cartão<br/>Limite: R$ 5.000]
+    
+    IssueCard1 --> TryIssue1{Emissão<br/>bem-sucedida?}
+    IssueCard2A --> TryIssue2A{Emissão 1º cartão<br/>bem-sucedida?}
+    
+    TryIssue1 -->|Sim| SaveCard1[(Salvar Cartão<br/>no BD)]
+    TryIssue1 -->|Não - Falha| Retry1[Retry com backoff<br/>até 3 tentativas]
+    
+    Retry1 -->|Sucesso| SaveCard1
+    Retry1 -->|Falha após retries| DLQ1[Enviar para<br/>Dead Letter Queue]
+    
+    TryIssue2A -->|Sim| SaveCard2A[(Salvar 1º Cartão<br/>no BD)]
+    TryIssue2A -->|Não - Falha| Retry2A[Retry com backoff<br/>até 3 tentativas]
+    
+    Retry2A -->|Sucesso| SaveCard2A
+    Retry2A -->|Falha após retries| DLQ2[Enviar para<br/>Dead Letter Queue]
+    
+    SaveCard2A --> IssueCard2B[Emitir 2º cartão<br/>Limite: R$ 5.000]
+    
+    IssueCard2B --> TryIssue2B{Emissão 2º cartão<br/>bem-sucedida?}
+    
+    TryIssue2B -->|Sim| SaveCard2B[(Salvar 2º Cartão<br/>no BD)]
+    TryIssue2B -->|Não - Falha| Retry2B[Retry com backoff<br/>até 3 tentativas]
+    
+    Retry2B -->|Sucesso| SaveCard2B
+    Retry2B -->|Falha após retries| DLQ3[Enviar para<br/>Dead Letter Queue]
+    
+    SaveCard1 --> PublishCardIssued1[Publicar evento:<br/>CardIssued]
+    SaveCard2B --> PublishCardIssued2[Publicar evento:<br/>CardsIssued]
+    
+    DLQ1 --> Alert1[Alertar equipe<br/>para ação manual]
+    DLQ2 --> Alert2[Alertar equipe<br/>para ação manual]
+    DLQ3 --> Alert3[Alertar equipe<br/>para ação manual]
+    
+    PublishCardIssued1 --> End1([Processo Concluído])
+    PublishCardIssued2 --> End2([Processo Concluído])
+    Alert1 --> End3([Aguardando Intervenção])
+    Alert2 --> End4([Aguardando Intervenção])
+    Alert3 --> End5([Aguardando Intervenção])
+    QueueRejected -.-> End6([Proposta Rejeitada])
+    
+    style Start fill:#e1f5e1
+    style End1 fill:#e1f5e1
+    style End2 fill:#e1f5e1
+    style End3 fill:#ffe1e1
+    style End4 fill:#ffe1e1
+    style End5 fill:#ffe1e1
+    style End6 fill:#fff4e1
+    style DLQ1 fill:#ffcccc
+    style DLQ2 fill:#ffcccc
+    style DLQ3 fill:#ffcccc
+    style Queue1 fill:#e1e5ff
+    style QueueApproved fill:#e1e5ff
+    style QueueRejected fill:#e1e5ff

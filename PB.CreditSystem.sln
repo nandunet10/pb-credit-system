@@ -4,16 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{984BB9B3-3FA3-BE33-9484-CAC21695A33C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerService", "CustomerService", "{19B15F64-EB37-87DE-4F88-783833EF3D73}"
-	ProjectSection(SolutionItems) = preProject
-		Dockerfile.yml = Dockerfile.yml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PB.CustomerService.API", "src\Services\CustomerService\PB.CustomerService.API\PB.CustomerService.API.csproj", "{B9AACB95-CBCA-413F-AA38-BBE598DFA42A}"
 EndProject
@@ -56,6 +50,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PB.Shared.Messaging", "src\Shared\PB.Shared.Messaging\PB.Shared.Messaging.csproj", "{ABC2BF5A-D6E4-476F-8C4B-7783C46C3269}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PB.Shared.Core", "src\Shared\PB.Shared.Core\PB.Shared.Core.csproj", "{98C6A036-DF61-44D7-A2CF-472BFC9997CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{53F7C7C3-B44F-41F6-9B89-16294EBFD8EF}"
+	ProjectSection(SolutionItems) = preProject
+		fluxograma.drawio = fluxograma.drawio
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

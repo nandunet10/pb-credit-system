@@ -1,8 +1,10 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PB.CustomerService.API.Middlewares;
+using PB.CustomerService.Application.Services;
 using PB.CustomerService.Infrastructure;
 using PB.CustomerService.Infrastructure.Data;
+using PB.Shared.Core.Interfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +35,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddInfrastructure(builder.Configuration);
 
 //// Application Services
-//builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // MassTransit + RabbitMQ
 builder.Services.AddMassTransit(x =>
