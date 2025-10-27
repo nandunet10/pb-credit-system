@@ -31,3 +31,6 @@
 /src/Shared/PB.Shared.Messaging/bin/Debug/net8.0
 /src/Shared/PB.Shared.Messaging/obj
 /.vs/ProjectEvaluation
+/src/Shared/PB.Shared.Core/bin/Debug/net8.0
+/src/Services/CreditProposalService/PB.CreditProposalService.API/bin/Debug/net8.0
+/src/Services/CreditProposalService/PB.CreditProposalService.Infrastructure/bin/Debug/net8.0
