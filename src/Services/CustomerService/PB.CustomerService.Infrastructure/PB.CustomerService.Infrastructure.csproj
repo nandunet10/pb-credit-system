@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\PB.Shared.Core\PB.Shared.Core.csproj" />
+    <ProjectReference Include="..\PB.CustomerService.Application\PB.CustomerService.Application.csproj" />
+    <ProjectReference Include="..\PB.CustomerService.Domain\PB.CustomerService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

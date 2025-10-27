@@ -11,8 +11,4 @@
     <PackageReference Include="Serilog" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Services\CustomerService\PB.CustomerService.Application\PB.CustomerService.Application.csproj" />
-  </ItemGroup>
-
 </Project>

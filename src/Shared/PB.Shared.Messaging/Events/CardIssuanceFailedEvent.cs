@@ -1,6 +1,6 @@
 ﻿namespace PB.Shared.Messaging.Events
 {
-    public record CardIssuanceFailedEvent
+    public class CardIssuanceFailedEvent
     {
         public Guid ProposalId { get; init; }
         public Guid CustomerId { get; init; }

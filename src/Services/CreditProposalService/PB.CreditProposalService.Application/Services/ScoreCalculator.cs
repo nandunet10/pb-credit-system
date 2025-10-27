@@ -1,22 +1,24 @@
-﻿namespace PB.CustomerService.Application.Services
+﻿using PB.CreditProposalService.Application.DTOs;
+
+namespace PB.CreditProposalService.Application.Services
 {
     public class ScoreCalculator : IScoreCalculator
     {
-        public int Calculate(CustomerData customerData)
+        public int CalculateScore(CustomerData customerData)
         {
             int score = 0;
 
             // Pontuação baseada na renda
-            score += CalculateIncomeScore(customerData.Income);
+            score += CalculateIncomeScore(customerData.MonthlyIncome);
 
             // Pontuação baseada na idade
-            score += CalculateAgeScore(customerData.DateOfBirth);
+            score += CalculateAgeScore(customerData.BirthDate);
 
             // Limitar score entre 0 e 1000
             return Math.Clamp(score, 0, 1000);
         }
 
-        private int CalculateIncomeScore(decimal income)
+        private static int CalculateIncomeScore(decimal income)
         {
             return income switch
             {
@@ -28,7 +30,7 @@
             };
         }
 
-        private int CalculateAgeScore(DateTime dateOfBirth)
+        private static int CalculateAgeScore(DateTime dateOfBirth)
         {
             var age = DateTime.Today.Year - dateOfBirth.Year;
             if (dateOfBirth.Date > DateTime.Today.AddYears(-age))

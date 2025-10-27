@@ -4,7 +4,7 @@ using PB.CustomerService.API.Middlewares;
 using PB.CustomerService.Application.Services;
 using PB.CustomerService.Infrastructure;
 using PB.CustomerService.Infrastructure.Data;
-using PB.Shared.Core.Interfaces;
+using PB.CustomerService.Infrastructure.Repositories;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,24 +18,19 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Add services to the container
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Customer Service API",
-        Version = "v1",
-        Description = "API para gerenciamento de clientes do sistema de crédito PB"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 // Infrastructure
 builder.Services.AddInfrastructure(builder.Configuration);
 
-//// Application Services
+// Application Services
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+// Repositories
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 // MassTransit + RabbitMQ
 builder.Services.AddMassTransit(x =>
@@ -54,21 +49,19 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Middleware de tratamento de exceções
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Aplicar migrations automaticamente (remover em produção)
+// Aplicar migrations automaticamente
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();

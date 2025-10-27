@@ -1,5 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using PB.CreditProposalService.Application.DTOs;
+using PB.CreditProposalService.Application.Services;
 using PB.CreditProposalService.Domain.Entities;
 using PB.CreditProposalService.Domain.Enums;
 using PB.CreditProposalService.Infrastructure.Data;
@@ -40,11 +42,11 @@ namespace PB.CreditProposalService.Infrastructure.Consumers
                 var customerData = new CustomerData
                 {
                     CustomerId = message.CustomerId,
-                    Income = message.Income,
-                    DateOfBirth = message.DateOfBirth
+                    MonthlyIncome = message.Income,
+                    BirthDate = message.DateOfBirth
                 };
 
-                var score = _scoreCalculator.Calculate(customerData);
+                var score = _scoreCalculator.CalculateScore(customerData);
 
                 _logger.LogInformation(
                     "Score calculado para cliente {CustomerId}: {Score}",

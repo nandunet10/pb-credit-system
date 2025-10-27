@@ -17,15 +17,7 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Credit Card Service API",
-        Version = "v1",
-        Description = "API para emissão e gerenciamento de cartões de crédito"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 // Infrastructure
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -33,7 +25,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // MassTransit + RabbitMQ
 builder.Services.AddMassTransit(x =>
 {
-    // Registrar consumers
+    // Registrar consumer
     x.AddConsumer<ProposalApprovedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
@@ -44,15 +36,11 @@ builder.Services.AddMassTransit(x =>
             h.Password(builder.Configuration["RabbitMQ:Password"]);
         });
 
-        // Configurar endpoint para o consumer com resiliência
+        // Configurar endpoint com resiliência
         cfg.ReceiveEndpoint("proposal-approved-queue", e =>
         {
             e.ConfigureConsumer<ProposalApprovedConsumer>(context);
-
-            // Configurar retry policy
             e.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
-
-            // Configurar Dead Letter Queue
             e.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15)));
         });
 

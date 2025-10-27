@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PB.CustomerService.Application.DTOs;
 using PB.CustomerService.Application.Validators;
-using PB.Shared.Core.Interfaces;
 
 namespace PB.CustomerService.API.Controllers
 {

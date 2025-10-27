@@ -1,6 +1,6 @@
 ﻿namespace PB.CustomerService.Application.DTOs
 {
-    public record AddressDto
+    public class AddressDto
     {
         public string Street { get; init; }
         public string Number { get; init; }

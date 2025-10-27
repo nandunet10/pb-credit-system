@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\PB.Shared.Core\PB.Shared.Core.csproj" />
     <ProjectReference Include="..\..\..\Shared\PB.Shared.Messaging\PB.Shared.Messaging.csproj" />
     <ProjectReference Include="..\PB.CustomerService.Domain\PB.CustomerService.Domain.csproj" />
   </ItemGroup>

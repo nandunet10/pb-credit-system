@@ -1,6 +1,6 @@
 ﻿namespace PB.CustomerService.Application.DTOs
 {
-    public record CustomerResponse
+    public class CustomerResponse
     {
         public Guid Id { get; init; }
         public string Name { get; init; }

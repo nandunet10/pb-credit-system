@@ -1,6 +1,6 @@
 ﻿namespace PB.Shared.Messaging.Events
 {
-    public record CustomerRegisteredEvent
+    public class CustomerRegisteredEvent
     {
         public Guid CustomerId { get; init; }
         public string Name { get; init; }

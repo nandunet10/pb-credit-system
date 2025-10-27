@@ -1,6 +1,6 @@
 ﻿namespace PB.CustomerService.Application.DTOs
 {
-    public record CreateCustomerRequest
+    public class CreateCustomerRequest
     {
         public string Name { get; init; }
         public string CPF { get; init; }

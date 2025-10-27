@@ -1,11 +1,9 @@
-
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using PB.CreditProposalService.Application.Services;
 using PB.CreditProposalService.Infrastructure;
 using PB.CreditProposalService.Infrastructure.Consumers;
 using PB.CreditProposalService.Infrastructure.Data;
-using PB.CustomerService.Application.Services;
-using PB.Shared.Core.Interfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,15 +18,7 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Credit Proposal Service API",
-        Version = "v1",
-        Description = "API para análise e geração de propostas de crédito"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 // Infrastructure
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -39,7 +29,7 @@ builder.Services.AddScoped<IScoreCalculator, ScoreCalculator>();
 // MassTransit + RabbitMQ
 builder.Services.AddMassTransit(x =>
 {
-    // Registrar consumers
+    // Registrar consumer
     x.AddConsumer<CustomerRegisteredConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
@@ -54,8 +44,6 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("customer-registered-queue", e =>
         {
             e.ConfigureConsumer<CustomerRegisteredConsumer>(context);
-
-            // Configurar retry policy
             e.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
         });
 

@@ -1,6 +1,6 @@
 ﻿namespace PB.Shared.Messaging.Events
 {
-    public record ProposalApprovedEvent
+    public class ProposalApprovedEvent
     {
         public Guid ProposalId { get; init; }
         public Guid CustomerId { get; init; }
